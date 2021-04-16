@@ -21,13 +21,13 @@ if __name__ == '__main__':
                     text = text + n
                     data.remove(n)
                 data.remove(' ')
-                listOfcells.append(int(text))
-            print(listOfcells)
+                listOfcells.append(int(text))  # TODO solve the problem if i have both row and col consistency.
+            # print(listOfcells)
             while j < cols:
                 if listOfcells[j] == 0:
                     tempNode = Node.Node('value', i, j)
                     tempNode.set_name()
-                    #tempNode.set_domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
+                    # tempNode.set_domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
                     listOfcells[j] = tempNode
                 elif listOfcells[j] == -1:
                     tempNode = Node.Node('blank', i, j)
@@ -46,9 +46,10 @@ if __name__ == '__main__':
                         tempNode.set_row_constraint(listOfcells[j])
                     listOfcells[j] = tempNode
                 j += 1
-            print(listOfcells)
+            # print(listOfcells)
             game.add_nodes_to_board(listOfcells)
             i += 1
             j = 0
 
         print(game.print_board())
+        game.solve()
