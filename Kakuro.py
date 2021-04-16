@@ -18,3 +18,5 @@ class Kakuro:
                     text += str(self.board[i][j]) + " "
             text += '\n'
         return text
+    def solve(self):
+        pass
