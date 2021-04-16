@@ -31,3 +31,5 @@ class Node:
             self.domain = array_of_domain
         else:
             return
+    def __repr__(self):
+       return f'({self.type}-{self.value}-{self.rowC}-{self.colC})'
