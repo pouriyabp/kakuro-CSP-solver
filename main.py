@@ -26,6 +26,7 @@ if __name__ == '__main__':
             while j < cols:
                 if listOfcells[j] == 0:
                     tempNode = Node.Node('value', i, j)
+                    tempNode.set_domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
                     listOfcells[j] = tempNode
                 elif listOfcells[j] == -1:
                     tempNode = Node.Node('blank', i, j)
