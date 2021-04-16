@@ -26,13 +26,16 @@ if __name__ == '__main__':
             while j < cols:
                 if listOfcells[j] == 0:
                     tempNode = Node.Node('value', i, j)
-                    tempNode.set_domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
+                    tempNode.set_name()
+                    #tempNode.set_domain([1, 2, 3, 4, 5, 6, 7, 8, 9])
                     listOfcells[j] = tempNode
                 elif listOfcells[j] == -1:
                     tempNode = Node.Node('blank', i, j)
+                    tempNode.set_name()
                     listOfcells[j] = tempNode
                 else:
                     tempNode = Node.Node('constraint', i, j)
+                    tempNode.set_name()
                     if i == 0:
                         tempNode.set_col_constraint(listOfcells[j])
                     elif i != 0 and j == 0:
@@ -48,4 +51,4 @@ if __name__ == '__main__':
             i += 1
             j = 0
 
-        print(game.board)
+        print(game.print_board())
