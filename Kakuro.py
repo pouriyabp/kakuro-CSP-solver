@@ -25,6 +25,7 @@ class Kakuro:
     def solve(self):
         pass
 
+    # find neighbors of each nodes and set row and col consistency to each value node.
     def find_neighbors(self):
         for i in range(0, self.row):
             for j in range(0, self.col):
@@ -70,3 +71,23 @@ class Kakuro:
                                 tempNode.set_col_constraint(tempNode2.colC)
                             break
                     tempNode.add_horizontal_neighbors(tempArr)
+
+    # set domain to each node that are have consistency less than 9
+    def set_domain_to_each_node(self):
+        for i in range(0, self.row):
+            for j in range(0, self.col):
+                tempArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                tempNode = self.board[i][j]
+                if tempNode.name[0] == 'X':
+                    if tempNode.rowC > 9 and tempNode.colC > 9:
+                        tempNode.set_domain(tempArr)
+
+                    elif tempNode.rowC < 9:
+                        tempArr = [x for x in tempArr if x <= tempNode.rowC - 1]  # TODO chek the neighbors>=1
+                        tempNode.set_domain(tempArr)
+
+                    elif tempNode.colC < 9:
+                        tempArr = [x for x in tempArr if x <= tempNode.colC - 1]  # TODO chek the neighbors>=1
+                        tempNode.set_domain(tempArr)
+
+                    # print(tempNode.domain)
