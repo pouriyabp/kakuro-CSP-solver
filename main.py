@@ -21,7 +21,7 @@ if __name__ == '__main__':
                     text = text + n
                     data.remove(n)
                 data.remove(' ')
-                listOfcells.append(int(text))  # TODO solve the problem if i have both row and col consistency.
+                listOfcells.append(int(text))  # TODO: solve the problem if i have both row and col consistency.
             # print(listOfcells)
             while j < cols:
                 if listOfcells[j] == 0:
@@ -52,4 +52,5 @@ if __name__ == '__main__':
             j = 0
 
         print(game.print_board())
+        game.find_neighbors()
         game.solve()
