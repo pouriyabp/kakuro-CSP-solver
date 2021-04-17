@@ -8,6 +8,8 @@ class Node:
         self.rowC = None
         self.colC = None
         self.name = None
+        self.horizontalNeighbors = []
+        self.verticalNeighbors = []
 
     def set_name(self):
         if self.type == "value":
@@ -24,16 +26,13 @@ class Node:
             return
 
     def set_row_constraint(self, row_constraint):
-        if self.type == "constraint":
+        #if self.type == "constraint":
             self.rowC = row_constraint
-        else:
-            return
 
     def set_col_constraint(self, col_constraint):
-        if self.type == "constraint":
+        #if self.type == "constraint":
             self.colC = col_constraint
-        else:
-            return
+
 
     def set_domain(self, array_of_domain):
         if self.type == "value":
@@ -44,3 +43,9 @@ class Node:
     def __repr__(self):
         # return f'({self.type}-{self.value}-{self.rowC}-{self.colC})'
         return f"{self.name}"
+
+    def add_vertical_neighbors(self, arr):
+        self.verticalNeighbors = arr
+
+    def add_horizontal_neighbors(self, arr):
+        self.horizontalNeighbors = arr
