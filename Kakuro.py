@@ -130,9 +130,9 @@ class Kakuro:
     # function that check goal: if all variables have value.
     def check_goal(self):
         i = 0
-        j = 0
-        check_node = True
+        check_node = False
         while i < self.row:
+            j = 0
             while j < self.row:
                 temp_node = self.board[i][j]
                 if temp_node.name[0] == 'X' and temp_node.value is None:
@@ -140,12 +140,12 @@ class Kakuro:
                     break
                 else:
                     j += 1
-            if check_node is True:
+            if check_node:
                 break
             else:
                 i += 1
 
-        if check_node is True:
+        if check_node:
             return False
         else:
             return True
