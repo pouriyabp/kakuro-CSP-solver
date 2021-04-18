@@ -126,3 +126,26 @@ class Kakuro:
                         if len(temp_arr) < len(temp_node.domain):
                             temp_node.set_domain(temp_arr)
                     print(temp_node.domain)
+
+    # function that check goal: if all variables have value.
+    def check_goal(self):
+        i = 0
+        j = 0
+        check_node = True
+        while i < self.row:
+            while j < self.row:
+                temp_node = self.board[i][j]
+                if temp_node.name[0] == 'X' and temp_node.value is None:
+                    check_node = True
+                    break
+                else:
+                    j += 1
+            if check_node is True:
+                break
+            else:
+                i += 1
+
+        if check_node is True:
+            return False
+        else:
+            return True
