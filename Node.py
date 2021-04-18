@@ -26,13 +26,12 @@ class Node:
             return
 
     def set_row_constraint(self, row_constraint):
-        #if self.type == "constraint":
-            self.rowC = row_constraint
+        # if self.type == "constraint":
+        self.rowC = row_constraint
 
     def set_col_constraint(self, col_constraint):
-        #if self.type == "constraint":
-            self.colC = col_constraint
-
+        # if self.type == "constraint":
+        self.colC = col_constraint
 
     def set_domain(self, array_of_domain):
         if self.type == "value":

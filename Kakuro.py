@@ -1,6 +1,3 @@
-import Node
-
-
 class Kakuro:
     def __init__(self, row, col):
         self.row = row
@@ -29,65 +26,66 @@ class Kakuro:
     def find_neighbors(self):
         for i in range(0, self.row):
             for j in range(0, self.col):
-                tempArr = []
-                tempNode = self.board[i][j]
-                if tempNode.name[0] == 'X':
-                    # from where tempNode is to right.
+                temp_arr = []
+                temp_node = self.board[i][j]
+                if temp_node.name[0] == 'X':
+                    # from where temp_node is to right.
                     for k in range(j + 1, self.col):
-                        tempNode2 = self.board[i][k]
-                        if tempNode2.name[0] == 'X':
-                            if tempNode2.name != tempNode.name:
-                                tempArr.append(tempNode2.name)
+                        temp_node2 = self.board[i][k]
+                        if temp_node2.name[0] == 'X':
+                            if temp_node2.name != temp_node.name:
+                                temp_arr.append(temp_node2.name)
                         else:
                             break
-                    # from where tempNode is to left.
+                    # from where temp_node is to left.
                     for k in range(j, -1, -1):
-                        tempNode2 = self.board[i][k]
-                        if tempNode2.name[0] == 'X':
-                            if tempNode2.name != tempNode.name:
-                                tempArr.append(tempNode2.name)
+                        temp_node2 = self.board[i][k]
+                        if temp_node2.name[0] == 'X':
+                            if temp_node2.name != temp_node.name:
+                                temp_arr.append(temp_node2.name)
                         else:
-                            if tempNode2.name[0] == 'C':
-                                tempNode.set_row_constraint(tempNode2.rowC)
+                            if temp_node2.name[0] == 'C':
+                                temp_node.set_row_constraint(temp_node2.rowC)
                                 break
-                    tempNode.add_vertical_neighbors(tempArr)
-                    tempArr = []
-                    # from where tempNode is to down.
+                    temp_node.add_vertical_neighbors(temp_arr)
+                    temp_arr = []
+                    # from where temp_node is to down.
                     for k in range(i + 1, self.row):
-                        tempNode2 = self.board[k][j]
-                        if tempNode2.name[0] == 'X':
-                            if tempNode2.name != tempNode.name:
-                                tempArr.append(tempNode2.name)
+                        temp_node2 = self.board[k][j]
+                        if temp_node2.name[0] == 'X':
+                            if temp_node2.name != temp_node.name:
+                                temp_arr.append(temp_node2.name)
                         else:
                             break
-                        # from where tempNode is to down.
+                        # from where temp_node is to down.
                     for k in range(i - 1, -1, -1):
-                        tempNode2 = self.board[k][j]
-                        if tempNode2.name[0] == 'X':
-                            if tempNode2.name != tempNode.name:
-                                tempArr.append(tempNode2.name)
+                        temp_node2 = self.board[k][j]
+                        if temp_node2.name[0] == 'X':
+                            if temp_node2.name != temp_node.name:
+                                temp_arr.append(temp_node2.name)
                         else:
-                            if tempNode2.name[0] == 'C':
-                                tempNode.set_col_constraint(tempNode2.colC)
+                            if temp_node2.name[0] == 'C':
+                                temp_node.set_col_constraint(temp_node2.colC)
                             break
-                    tempNode.add_horizontal_neighbors(tempArr)
+                    temp_node.add_horizontal_neighbors(temp_arr)
 
     # set domain to each node that are have consistency less than 9
-    def set_domain_to_each_node(self):
+    def set_domain_to_each_node(
+            self):  # TODO check the neighbors and then set domain depend on the count of neighbors.
         for i in range(0, self.row):
             for j in range(0, self.col):
-                tempArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-                tempNode = self.board[i][j]
-                if tempNode.name[0] == 'X':
-                    if tempNode.rowC > 9 and tempNode.colC > 9:
-                        tempNode.set_domain(tempArr)
+                temp_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                temp_node = self.board[i][j]
+                if temp_node.name[0] == 'X':
+                    if temp_node.rowC > 9 and temp_node.colC > 9:
+                        temp_node.set_domain(temp_arr)
 
-                    elif tempNode.rowC < 9:
-                        tempArr = [x for x in tempArr if x <= tempNode.rowC - 1]  # TODO chek the neighbors>=1
-                        tempNode.set_domain(tempArr)
+                    elif temp_node.rowC < 9:
+                        temp_arr = [x for x in temp_arr if x <= temp_node.rowC - 1]  # TODO check the neighbors>=1.
+                        temp_node.set_domain(temp_arr)
 
-                    elif tempNode.colC < 9:
-                        tempArr = [x for x in tempArr if x <= tempNode.colC - 1]  # TODO chek the neighbors>=1
-                        tempNode.set_domain(tempArr)
+                    elif temp_node.colC < 9:
+                        temp_arr = [x for x in temp_arr if x <= temp_node.colC - 1]  # TODO check the neighbors>=1.
+                        temp_node.set_domain(temp_arr)
 
-                    # print(tempNode.domain)
+                    # print(temp_node.domain)
