@@ -159,3 +159,8 @@ class Kakuro:
             return False
         else:
             return True
+
+    def set_copy_of_domain_each_node(self):
+        for node in self.arrOfValueNodes:
+            node.set_copy_of_domain()
+            print(node.copyOfDomain)
