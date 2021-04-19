@@ -3,6 +3,16 @@ class Kakuro:
         self.row = row
         self.col = col
         self.board = []
+        self.arrOfValueNodes = []
+
+    # full the arr of nodes to have all value nodes in one arr.
+    def set_arr_of_value_nodes(self):
+        for i in range(0, self.row):
+            for j in range(0, self.col):
+
+                temp_node = self.board[i][j]
+                if temp_node.name[0] == 'X':
+                    self.arrOfValueNodes.append(temp_node)
 
     def add_nodes_to_board(self, array_of_nodes):
         self.board.append(array_of_nodes)
@@ -125,7 +135,7 @@ class Kakuro:
                     if temp_node.domain != temp_arr:
                         if len(temp_arr) < len(temp_node.domain):
                             temp_node.set_domain(temp_arr)
-                    print(temp_node.domain)
+                    # print(temp_node.domain)
 
     # function that check goal: if all variables have value.
     def check_goal(self):
