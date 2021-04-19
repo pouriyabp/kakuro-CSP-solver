@@ -54,5 +54,7 @@ if __name__ == '__main__':
         print(game.print_board())
         game.find_neighbors()
         game.calculate_domain()
-        print(game.check_goal())
+        game.set_arr_of_value_nodes()
+        # print(game.arrOfValueNodes)
+        # print(game.check_goal())
         game.solve()
