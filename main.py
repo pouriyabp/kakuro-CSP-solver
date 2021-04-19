@@ -52,9 +52,10 @@ if __name__ == '__main__':
             j = 0
 
         print(game.print_board())
+        game.set_arr_of_value_nodes()
         game.find_neighbors()
         game.calculate_domain()
-        game.set_arr_of_value_nodes()
+        game.set_copy_of_domain_each_node()
         # print(game.arrOfValueNodes)
         # print(game.check_goal())
         game.solve()
