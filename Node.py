@@ -5,6 +5,7 @@ class Node:
         self.colIndex = col_index
         self.value = None
         self.domain = []
+        self.copyOfDomain = []
         self.rowC = None
         self.colC = None
         self.name = None
@@ -48,3 +49,6 @@ class Node:
 
     def add_horizontal_neighbors(self, arr):
         self.horizontalNeighbors = arr
+
+    def set_copy_of_domain(self):
+        self.copyOfDomain = self.domain
