@@ -58,4 +58,5 @@ if __name__ == '__main__':
         game.set_copy_of_domain_each_node()
         # print(game.arrOfValueNodes)
         # print(game.check_goal())
+        print(game.backtrack_search(0))
         game.solve()
