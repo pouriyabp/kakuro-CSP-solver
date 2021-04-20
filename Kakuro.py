@@ -169,18 +169,19 @@ class Kakuro:
         if node.value is None:
             for domain in node.copyOfDomain:
                 node.value = domain
-                node.copyOfDomain.remove(node.value)
+                # node.copyOfDomain.remove(node.value)
                 print(f"{node}: {node.value}-----> {node.copyOfDomain}")
+                print(Kakuro.print_board_value(self.row, self.col, self.board))
                 if Kakuro.valid_value(node):
-                    if Kakuro.forward_checking(node):
-                         if self.backtrack_search(number_in_arr_of_value + 1):
-                             return True
-                else:
-                    Kakuro.rec_forward_checking(node)
-                    node.copyOfDomain.append(node.value)
-                    node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
-                    node.copyOfDomain.sort()
-                    node.value = None
+                    # if Kakuro.forward_checking(node):
+                    if self.backtrack_search(number_in_arr_of_value + 1):
+                        return True
+
+                # Kakuro.rec_forward_checking(node)
+                # node.copyOfDomain.append(node.value)
+                # node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
+                # node.copyOfDomain.sort()
+                node.value = None
 
     @staticmethod
     def forward_checking(node):
@@ -217,10 +218,14 @@ class Kakuro:
         count_v = 0
         for x in node.verticalNeighbors:
             if x.value is not None:
+                if x.value == node.value:
+                    return False
                 count_v += 1
                 sum_vertical += x.value
         for x in node.horizontalNeighbors:
             if x.value is not None:
+                if x.value == node.value:
+                    return False
                 count_h += 1
                 sum_horizontal += x.value
 
@@ -234,3 +239,16 @@ class Kakuro:
             return False
         else:
             return True
+
+    @staticmethod
+    def print_board_value(row, col, board):
+        text = ""
+        for i in range(0, row):
+            for j in range(0, col):
+                # because B nodes has no number in their name
+                if board[i][j].value is None:
+                    text += '0 '
+                else:
+                    text += str(board[i][j].value) + " "
+            text += '\n'
+        return text
