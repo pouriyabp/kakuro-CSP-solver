@@ -112,6 +112,7 @@ class Kakuro:
                     for k in range(0, len(temp_node.horizontalNeighbors)):
                         if temp_node.horizontalNeighbors[k].value is None:
                             number_of_neighbors += 1
+                    print(temp_node.rowC)
                     max_value = int(temp_node.rowC - ((number_of_neighbors * (number_of_neighbors - 1)) / 2))
                     min_value = int(temp_node.rowC - ((20 - number_of_neighbors) * (number_of_neighbors - 1)) / 2)
                     # print(f"{temp_node} max Value {max_value} min Value {min_value}")
