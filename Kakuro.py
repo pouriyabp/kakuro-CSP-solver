@@ -169,7 +169,7 @@ class Kakuro:
         if node.value is None:
             for domain in node.copyOfDomain:
                 node.value = domain
-                print(f"{node}: {node.value}")
+                print(f"{node}: {node.value}-----> {node.copyOfDomain}")
                 if Kakuro.valid_value(node):
                     Kakuro.forward_checking(node)
                     if self.backtrack_search(number_in_arr_of_value + 1):
@@ -217,12 +217,14 @@ class Kakuro:
             if x.value is not None:
                 count_h += 1
                 sum_horizontal += x.value
-        if sum_horizontal < node.rowC and sum_vertical < node.colC and count_v < len(
-                node.verticalNeighbors) and count_h < len(node.horizontalNeighbors):
-            return True
-        elif sum_horizontal == node.rowC and sum_vertical == node.colC and count_v == len(
-                node.verticalNeighbors) and count_h == len(node.horizontalNeighbors):
-            return True
 
-        else:
+        if sum_horizontal > node.rowC:
             return False
+        elif sum_vertical > node.colC:
+            return False
+        elif count_v == len(node.verticalNeighbors) and sum_vertical != node.colC:
+            return False
+        elif count_h == len(node.horizontalNeighbors) and sum_horizontal != node.rowC:
+            return False
+        else:
+            return True
