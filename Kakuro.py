@@ -174,7 +174,7 @@ class Kakuro:
                     node.value = domain
                     # node.copyOfDomain.remove(node.value)
                     print(f"{node}: {node.value}-----> {node.copyOfDomain}")
-                    print(Kakuro.print_board_value(self.row, self.col, self.board))
+                    # print(Kakuro.print_board_value(self.row, self.col, self.board))
                     if Kakuro.valid_value(node):
                         # if Kakuro.forward_checking(node):
                         if self.backtrack_search(number_in_arr_of_value + 1):
@@ -186,6 +186,9 @@ class Kakuro:
                     # node.copyOfDomain.sort()
                     node.value = None
         else:
+            print("*" * 64+'\n')
+            print(Kakuro.print_board_value(self.row, self.col, self.board))
+            print("*" * 64)
             exit()
 
     @staticmethod
@@ -251,8 +254,16 @@ class Kakuro:
         for i in range(0, row):
             for j in range(0, col):
                 # because B nodes has no number in their name
-                if board[i][j].value is None:
+                if board[i][j].value is None and board[i][j].type == 'value':
                     text += '0 '
+                elif board[i][j].type == 'constraint':
+                    if board[i][j].rowC is not None:
+                        text += str(board[i][j].rowC) + " "
+                    elif board[i][j].colC is not None:
+                        text += str(board[i][j].colC) + " "
+                elif board[i][j].type == 'blank':
+                    text += '-1 '
+
                 else:
                     text += str(board[i][j].value) + " "
             text += '\n'
