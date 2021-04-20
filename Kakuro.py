@@ -169,13 +169,17 @@ class Kakuro:
         if node.value is None:
             for domain in node.copyOfDomain:
                 node.value = domain
+                node.copyOfDomain.remove(node.value)
                 print(f"{node}: {node.value}-----> {node.copyOfDomain}")
                 if Kakuro.valid_value(node):
-                    Kakuro.forward_checking(node)
-                    if self.backtrack_search(number_in_arr_of_value + 1):
-                        return True
+                    if Kakuro.forward_checking(node):
+                         if self.backtrack_search(number_in_arr_of_value + 1):
+                             return True
                 else:
                     Kakuro.rec_forward_checking(node)
+                    node.copyOfDomain.append(node.value)
+                    node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
+                    node.copyOfDomain.sort()
                     node.value = None
 
     @staticmethod
@@ -183,12 +187,12 @@ class Kakuro:
         for x in node.verticalNeighbors:
             if node.value in x.copyOfDomain:
                 x.copyOfDomain.remove(node.value)
-            if len(x.copyOfDomain) <= 0:
+            if len(x.copyOfDomain) <= 0 and x.value is None:
                 return False
         for x in node.horizontalNeighbors:
             if node.value in x.copyOfDomain:
                 x.copyOfDomain.remove(node.value)
-            if len(x.copyOfDomain) <= 0:
+            if len(x.copyOfDomain) <= 0 and x.value is None:
                 return False
         return True
 
@@ -197,10 +201,12 @@ class Kakuro:
         for x in node.verticalNeighbors:
             if node.value in x.domain:
                 x.copyOfDomain.append(node.value)
+                x.copyOfDomain = list(dict.fromkeys(x.copyOfDomain))
                 x.copyOfDomain.sort()
         for x in node.horizontalNeighbors:
             if node.value in x.domain:
                 x.copyOfDomain.append(node.value)
+                x.copyOfDomain = list(dict.fromkeys(x.copyOfDomain))
                 x.copyOfDomain.sort()
 
     @staticmethod
