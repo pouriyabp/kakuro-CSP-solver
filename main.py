@@ -2,7 +2,7 @@ import Kakuro
 import Node
 
 if __name__ == '__main__':
-    with open("input.txt", 'r') as f:
+    with open("input2.txt", 'r') as f:
         cols = int(f.readline()[0])
         rows = int(f.readline()[0])
         game = Kakuro.Kakuro(rows, cols)
@@ -40,10 +40,14 @@ if __name__ == '__main__':
                         tempNode.set_col_constraint(listOfcells[j])
                     elif i != 0 and j == 0:
                         tempNode.set_row_constraint(listOfcells[j])
-                    elif i != 0 and j == cols - 1:
-                        tempNode.set_col_constraint(listOfcells[j])
-                    elif i == rows - 1 and j != 0:
+                    else:
                         tempNode.set_row_constraint(listOfcells[j])
+                        tempNode.set_col_constraint(listOfcells[j])
+                    # this cause problem in input2.txt so remove and use else
+                    # elif i != 0 and j == cols - 1:
+                    #     tempNode.set_col_constraint(listOfcells[j])
+                    # elif i == rows - 1 and j != 0:
+                    #     tempNode.set_row_constraint(listOfcells[j])
                     listOfcells[j] = tempNode
                 j += 1
             # print(listOfcells)
