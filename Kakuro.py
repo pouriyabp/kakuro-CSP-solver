@@ -164,14 +164,63 @@ class Kakuro:
         for node in self.arrOfValueNodes:
             node.set_copy_of_domain()
 
+    def backtrack_search(self, number_in_arr_of_value):
+        node = self.arrOfValueNodes[number_in_arr_of_value]
+        if node.value is None:
+            for domain in node.copyOfDomain:
+                node.value = domain
+                print(f"{node}: {node.value}")
+                if Kakuro.valid_value(node):
+                    Kakuro.forward_checking(node)
+                    if self.backtrack_search(number_in_arr_of_value + 1):
+                        return True
+                else:
+                    Kakuro.rec_forward_checking(node)
+                    node.value = None
+
     @staticmethod
-    def forward_checking(self, node):
+    def forward_checking(node):
         for x in node.verticalNeighbors:
-            x.copyOfDomain.remove(node.value)
+            if node.value in x.copyOfDomain:
+                x.copyOfDomain.remove(node.value)
             if len(x.copyOfDomain) <= 0:
                 return False
         for x in node.horizontalNeighbors:
-            x.copyOfDomain.remove(node.value)
+            if node.value in x.copyOfDomain:
+                x.copyOfDomain.remove(node.value)
             if len(x.copyOfDomain) <= 0:
                 return False
         return True
+
+    @staticmethod
+    def rec_forward_checking(node):
+        for x in node.verticalNeighbors:
+            x.copyOfDomain.append(node.value)
+            x.copyOfDomain.sort()
+        for x in node.horizontalNeighbors:
+            x.copyOfDomain.append(node.value)
+            x.copyOfDomain.sort()
+
+    @staticmethod
+    def valid_value(node):
+        sum_vertical = node.value
+        sum_horizontal = node.value
+        count_h = 0
+        count_v = 0
+        for x in node.verticalNeighbors:
+            if x.value is not None:
+                count_v += 1
+                sum_vertical += x.value
+        for x in node.horizontalNeighbors:
+            if x.value is not None:
+                count_h += 1
+                sum_horizontal += x.value
+        if sum_horizontal < node.rowC and sum_vertical < node.colC and count_v < len(
+                node.verticalNeighbors) and count_h < len(node.horizontalNeighbors):
+            return True
+        elif sum_horizontal == node.rowC and sum_vertical == node.colC and count_v == len(
+                node.verticalNeighbors) and count_h == len(node.horizontalNeighbors):
+            return True
+
+        else:
+            return False
