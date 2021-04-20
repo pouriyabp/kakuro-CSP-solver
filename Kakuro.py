@@ -195,11 +195,13 @@ class Kakuro:
     @staticmethod
     def rec_forward_checking(node):
         for x in node.verticalNeighbors:
-            x.copyOfDomain.append(node.value)
-            x.copyOfDomain.sort()
+            if node.value in x.domain:
+                x.copyOfDomain.append(node.value)
+                x.copyOfDomain.sort()
         for x in node.horizontalNeighbors:
-            x.copyOfDomain.append(node.value)
-            x.copyOfDomain.sort()
+            if node.value in x.domain:
+                x.copyOfDomain.append(node.value)
+                x.copyOfDomain.sort()
 
     @staticmethod
     def valid_value(node):
