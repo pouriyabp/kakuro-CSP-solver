@@ -163,4 +163,15 @@ class Kakuro:
     def set_copy_of_domain_each_node(self):
         for node in self.arrOfValueNodes:
             node.set_copy_of_domain()
-            print(node.copyOfDomain)
+
+    @staticmethod
+    def forward_checking(self, node):
+        for x in node.verticalNeighbors:
+            x.copyOfDomain.remove(node.value)
+            if len(x.copyOfDomain) <= 0:
+                return False
+        for x in node.horizontalNeighbors:
+            x.copyOfDomain.remove(node.value)
+            if len(x.copyOfDomain) <= 0:
+                return False
+        return True
