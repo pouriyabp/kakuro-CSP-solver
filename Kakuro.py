@@ -137,14 +137,15 @@ class Kakuro:
                             temp_node.set_domain(temp_arr)
                     # print(temp_node.domain)
 
+    @staticmethod
     # function that check goal: if all variables have value.
-    def check_goal(self):
+    def check_goal(row, col, board):
         i = 0
         check_node = False
-        while i < self.row:
+        while i < row:
             j = 0
-            while j < self.row:
-                temp_node = self.board[i][j]
+            while j < col:
+                temp_node = board[i][j]
                 if temp_node.name[0] == 'X' and temp_node.value is None:
                     check_node = True
                     break
@@ -165,23 +166,27 @@ class Kakuro:
             node.set_copy_of_domain()
 
     def backtrack_search(self, number_in_arr_of_value):
-        node = self.arrOfValueNodes[number_in_arr_of_value]
-        if node.value is None:
-            for domain in node.copyOfDomain:
-                node.value = domain
-                # node.copyOfDomain.remove(node.value)
-                print(f"{node}: {node.value}-----> {node.copyOfDomain}")
-                print(Kakuro.print_board_value(self.row, self.col, self.board))
-                if Kakuro.valid_value(node):
-                    # if Kakuro.forward_checking(node):
-                    if self.backtrack_search(number_in_arr_of_value + 1):
-                        return True
+        # we use not check_goal beacuse we need it to be true when it is false.
+        if number_in_arr_of_value < len(self.arrOfValueNodes) and not Kakuro.check_goal(self.row, self.col, self.board):
+            node = self.arrOfValueNodes[number_in_arr_of_value]
+            if node.value is None:
+                for domain in node.copyOfDomain:
+                    node.value = domain
+                    # node.copyOfDomain.remove(node.value)
+                    print(f"{node}: {node.value}-----> {node.copyOfDomain}")
+                    print(Kakuro.print_board_value(self.row, self.col, self.board))
+                    if Kakuro.valid_value(node):
+                        # if Kakuro.forward_checking(node):
+                        if self.backtrack_search(number_in_arr_of_value + 1):
+                            return True
 
-                # Kakuro.rec_forward_checking(node)
-                # node.copyOfDomain.append(node.value)
-                # node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
-                # node.copyOfDomain.sort()
-                node.value = None
+                    # Kakuro.rec_forward_checking(node)
+                    # node.copyOfDomain.append(node.value)
+                    # node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
+                    # node.copyOfDomain.sort()
+                    node.value = None
+        else:
+            exit()
 
     @staticmethod
     def forward_checking(node):
