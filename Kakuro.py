@@ -171,9 +171,20 @@ class Kakuro:
             node.set_copy_of_domain()
 
     def set_copy_of_value_nodes(self):
-        self.copyOfArrOfValueNodes = self.arrOfValueNodes
+        self.copyOfArrOfValueNodes = self.arrOfValueNodes.copy()
+
+    @staticmethod
+    def add_none_value_nodes(first_arr, second_arr):
+        for x in first_arr:
+            if x.value is None:
+                if x not in second_arr:
+                    second_arr.append(x)
+            elif x.value is not None:
+                if x in second_arr:
+                    second_arr.remove(x)
 
     def backtrack_search_use_queue(self):
+        Kakuro.add_none_value_nodes(self.arrOfValueNodes, self.copyOfArrOfValueNodes)
         heapq.heapify(self.copyOfArrOfValueNodes)
         if len(self.copyOfArrOfValueNodes) > 0 and not Kakuro.check_goal(self.row, self.col, self.board):
             node = heapq.heappop(self.copyOfArrOfValueNodes)
@@ -184,9 +195,8 @@ class Kakuro:
                     if Kakuro.valid_value(node):
                         if self.backtrack_search_use_queue():
                             return True
-                        else:
-                            node.value = None
-                            heapq.heappush(self.copyOfArrOfValueNodes, node)
+
+                    node.value = None
 
         else:
             print("*" * 64 + '\n')
