@@ -2,7 +2,7 @@ import Kakuro
 import Node
 
 if __name__ == '__main__':
-    with open("input2.txt", 'r') as f:
+    with open("input.txt", 'r') as f:
         cols = int(f.readline()[0])
         rows = int(f.readline()[0])
         game = Kakuro.Kakuro(rows, cols)
@@ -60,7 +60,9 @@ if __name__ == '__main__':
         game.find_neighbors()
         game.calculate_domain()
         game.set_copy_of_domain_each_node()
+        game.set_copy_of_value_nodes()
         # print(game.arrOfValueNodes)
         # print(game.check_goal())
-        print(game.backtrack_search(0))
+        print(game.backtrack_search_use_queue())
+        # print(game.backtrack_search(0))
         game.solve()
