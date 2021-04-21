@@ -1,9 +1,13 @@
+import heapq
+
+
 class Kakuro:
     def __init__(self, row, col):
         self.row = row
         self.col = col
         self.board = []
         self.arrOfValueNodes = []
+        self.copyOfArrOfValueNodes = []
 
     # full the arr of nodes to have all value nodes in one arr.
     def set_arr_of_value_nodes(self):
@@ -166,8 +170,32 @@ class Kakuro:
         for node in self.arrOfValueNodes:
             node.set_copy_of_domain()
 
+    def set_copy_of_value_nodes(self):
+        self.copyOfArrOfValueNodes = self.arrOfValueNodes
+
+    def backtrack_search_use_queue(self):
+        heapq.heapify(self.copyOfArrOfValueNodes)
+        if len(self.copyOfArrOfValueNodes) > 0 and not Kakuro.check_goal(self.row, self.col, self.board):
+            node = heapq.heappop(self.copyOfArrOfValueNodes)
+            if node.value is None:
+                for domain in node.copyOfDomain:
+                    node.value = domain
+                    print(f"{node}: {node.value}-----> {node.copyOfDomain}")
+                    if Kakuro.valid_value(node):
+                        if self.backtrack_search_use_queue():
+                            return True
+                        else:
+                            node.value = None
+                            heapq.heappush(self.copyOfArrOfValueNodes, node)
+
+        else:
+            print("*" * 64 + '\n')
+            print(Kakuro.print_board_value(self.row, self.col, self.board))
+            print("*" * 64)
+            exit()
+
     def backtrack_search(self, number_in_arr_of_value):
-        # we use not check_goal beacuse we need it to be true when it is false.
+        # we use not check_goal because we need it to be true when it is false.
         if number_in_arr_of_value < len(self.arrOfValueNodes) and not Kakuro.check_goal(self.row, self.col, self.board):
             node = self.arrOfValueNodes[number_in_arr_of_value]
             if node.value is None:
@@ -269,3 +297,10 @@ class Kakuro:
                     text += str(board[i][j].value) + " "
             text += '\n'
         return text
+
+    @staticmethod
+    # MRV heuristic
+    def minimum_remaining_values(arr_of_nodes):
+        heapq.heapify(arr_of_nodes)
+        # arr_of_nodes.sort(key=lambda x: len(x.domain))
+        # print(arr_of_nodes)
