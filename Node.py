@@ -54,4 +54,7 @@ class Node:
         self.copyOfDomain = self.domain
 
     def __gt__(self, other):
+        if len(self.domain) == len(other.domain):
+            return (len(self.horizontalNeighbors) + len(self.verticalNeighbors)) > (
+                        len(other.horizontalNeighbors) + len(other.verticalNeighbors))
         return len(self.domain) > len(other.domain)
