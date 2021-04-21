@@ -52,3 +52,6 @@ class Node:
 
     def set_copy_of_domain(self):
         self.copyOfDomain = self.domain
+
+    def __gt__(self, other):
+        return len(self.domain) > len(other.domain)
