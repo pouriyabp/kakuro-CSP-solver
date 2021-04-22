@@ -188,14 +188,17 @@ class Kakuro:
         heapq.heapify(self.copyOfArrOfValueNodes)
         if len(self.copyOfArrOfValueNodes) > 0 and not Kakuro.check_goal(self.row, self.col, self.board):
             node = heapq.heappop(self.copyOfArrOfValueNodes)
+
             if node.value is None:
                 for domain in node.copyOfDomain:
                     node.value = domain
                     print(f"{node}: {node.value}-----> {node.copyOfDomain}")
                     if Kakuro.valid_value(node):
-                        if self.backtrack_search_use_queue():
-                            return True
+                        if Kakuro.forward_checking(node):
+                            if self.backtrack_search_use_queue():
+                                return True
 
+                    Kakuro.rec_forward_checking(node)
                     node.value = None
 
         else:
