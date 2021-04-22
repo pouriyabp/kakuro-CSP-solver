@@ -51,7 +51,7 @@ class Node:
         self.horizontalNeighbors = arr
 
     def set_copy_of_domain(self):
-        self.copyOfDomain = self.domain
+        self.copyOfDomain = self.domain.copy()
 
     def __gt__(self, other):
         if len(self.domain) == len(other.domain):
