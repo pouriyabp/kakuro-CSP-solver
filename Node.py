@@ -54,7 +54,9 @@ class Node:
         self.copyOfDomain = self.domain.copy()
 
     def __gt__(self, other):
+        # degree heuristic
         if len(self.domain) == len(other.domain):
             return (len(self.horizontalNeighbors) + len(self.verticalNeighbors)) > (
-                        len(other.horizontalNeighbors) + len(other.verticalNeighbors))
+                    len(other.horizontalNeighbors) + len(other.verticalNeighbors))
+        # MRV heuristic
         return len(self.domain) > len(other.domain)
