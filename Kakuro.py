@@ -183,22 +183,28 @@ class Kakuro:
                 if x in second_arr:
                     second_arr.remove(x)
 
+    # use queue in this search that act like MRV and degree heuristic
     def backtrack_search_use_queue(self):
         Kakuro.add_none_value_nodes(self.arrOfValueNodes, self.copyOfArrOfValueNodes)
         heapq.heapify(self.copyOfArrOfValueNodes)
         if len(self.copyOfArrOfValueNodes) > 0 and not Kakuro.check_goal(self.row, self.col, self.board):
             node = heapq.heappop(self.copyOfArrOfValueNodes)
-
             if node.value is None:
                 for domain in node.copyOfDomain:
                     node.value = domain
+                    node.copyOfDomain.remove(node.value)
                     print(f"{node}: {node.value}-----> {node.copyOfDomain}")
                     if Kakuro.valid_value(node):
                         if Kakuro.forward_checking(node):
+                            Kakuro.add_none_value_nodes(self.arrOfValueNodes, self.copyOfArrOfValueNodes)
+                            heapq.heapify(self.copyOfArrOfValueNodes)
                             if self.backtrack_search_use_queue():
                                 return True
 
                     Kakuro.rec_forward_checking(node)
+                    node.copyOfDomain.append(node.value)
+                    node.copyOfDomain.sort()
+                    node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
                     node.value = None
 
         else:
