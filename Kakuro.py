@@ -189,6 +189,7 @@ class Kakuro:
         heapq.heapify(self.copyOfArrOfValueNodes)
         if len(self.copyOfArrOfValueNodes) > 0 and not Kakuro.check_goal(self.row, self.col, self.board):
             node = heapq.heappop(self.copyOfArrOfValueNodes)
+            Kakuro.least_constraining_value(node)
             if node.value is None:
                 for domain in node.copyOfDomain:
                     node.value = domain
@@ -205,6 +206,7 @@ class Kakuro:
                     node.copyOfDomain.append(node.value)
                     node.copyOfDomain.sort()
                     node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
+                    Kakuro.least_constraining_value(node)
                     node.value = None
 
         else:
@@ -318,7 +320,23 @@ class Kakuro:
         return text
 
     @staticmethod
-    # MRV heuristic
+    # LCV heuristic
+    def least_constraining_value(node):  # TODO count the number of consistency with neighbors
+        arr = node.copyOfDomain
+        neighbors = node.verticalNeighbors.copy()
+        neighbors += node.horizontalNeighbors.copy()
+        new_arr = []
+        for n in arr:
+            for neighbor in neighbors:
+                if n not in neighbor.domain and n not in new_arr:
+                    new_arr.append(n)
+        for n in arr:
+            if n not in new_arr:
+                new_arr.append(n)
+        node.copyOfDomain = new_arr
+
+    @staticmethod
+    # MRV heuristic (NOT USE)
     def minimum_remaining_values(arr_of_nodes):
         heapq.heapify(arr_of_nodes)
         # arr_of_nodes.sort(key=lambda x: len(x.domain))
