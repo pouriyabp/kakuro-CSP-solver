@@ -191,9 +191,12 @@ class Kakuro:
             node = heapq.heappop(self.copyOfArrOfValueNodes)
             Kakuro.least_constraining_value(node)
             if node.value is None:
-                for domain in node.copyOfDomain:
-                    node.value = domain
+                i = 0
+                # chang it to while loop because for is not work good
+                while i < len(node.copyOfDomain):
+                    node.value = node.copyOfDomain[i]
                     node.copyOfDomain.remove(node.value)
+                    # print(Kakuro.print_board_value(self.row, self.col, self.board))
                     print(f"{node}: {node.value}-----> {node.copyOfDomain}")
                     if Kakuro.valid_value(node):
                         if Kakuro.forward_checking(node):
@@ -206,8 +209,34 @@ class Kakuro:
                     node.copyOfDomain.append(node.value)
                     node.copyOfDomain.sort()
                     node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
+                    # print (f"{node}----------->copy of domain before lcv{node.copyOfDomain}")
                     Kakuro.least_constraining_value(node)
                     node.value = None
+                    # print(Kakuro.print_board_value(self.row, self.col, self.board))
+                    i += 1
+                # ------------------------------------------------------------------------------------------------------
+                # change this code to while loop
+                # for domain in node.copyOfDomain:
+                #     node.value = domain
+                #     node.copyOfDomain.remove(node.value)
+                #     print(Kakuro.print_board_value(self.row, self.col, self.board))
+                #     print(f"{node}: {node.value}-----> {node.copyOfDomain}")
+                #     if Kakuro.valid_value(node):
+                #         if Kakuro.forward_checking(node):
+                #             Kakuro.add_none_value_nodes(self.arrOfValueNodes, self.copyOfArrOfValueNodes)
+                #             heapq.heapify(self.copyOfArrOfValueNodes)
+                #             if self.backtrack_search_use_queue():
+                #                 return True
+                #
+                #     Kakuro.rec_forward_checking(node)
+                #     node.copyOfDomain.append(node.value)
+                #     node.copyOfDomain.sort()
+                #     node.copyOfDomain = list(dict.fromkeys(node.copyOfDomain))
+                #     # print (f"{node}----------->copy of domain before lcv{node.copyOfDomain}")
+                #     Kakuro.least_constraining_value(node)
+                #     node.value = None
+                #     print(Kakuro.print_board_value(self.row, self.col, self.board))
+                # ------------------------------------------------------------------------------------------------------
 
         else:
             print("*" * 64 + '\n')
@@ -321,19 +350,35 @@ class Kakuro:
 
     @staticmethod
     # LCV heuristic
-    def least_constraining_value(node):  # TODO count the number of consistency with neighbors
+    def least_constraining_value(node):
         arr = node.copyOfDomain
         neighbors = node.verticalNeighbors.copy()
         neighbors += node.horizontalNeighbors.copy()
         new_arr = []
+        count_of_each_domain = {}
+
         for n in arr:
+            counter = 0
             for neighbor in neighbors:
-                if n not in neighbor.domain and n not in new_arr:
-                    new_arr.append(n)
-        for n in arr:
-            if n not in new_arr:
-                new_arr.append(n)
-        node.copyOfDomain = new_arr
+                if n in neighbor.domain:
+                    counter += 1
+            count_of_each_domain[n] = counter
+        # print(f'{node}--------------------------------------------->new arr{count_of_each_domain}')
+        result = sorted(count_of_each_domain, key=count_of_each_domain.get)
+        if len(result) != len(arr):  # TODO check and put the domain that doesn't in neighbours
+            print('---------------------------=========error=======================-----------------------------------')
+
+        # for n in arr:
+        #     for neighbor in neighbors:
+        #         if n not in neighbor.domain and n not in new_arr:
+        #             new_arr.append(n)
+        # for n in arr:
+        #     if n not in new_arr:
+        #         new_arr.append(n)
+        #
+
+        # print(f'{node}--------------------------------------------->new arr{result}')
+        node.copyOfDomain = result
 
     @staticmethod
     # MRV heuristic (NOT USE)
