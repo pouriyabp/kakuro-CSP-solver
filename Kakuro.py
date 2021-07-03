@@ -389,8 +389,8 @@ class Kakuro:
 
     def arc_consistency(self):
         queue = {(node, node2) for node in self.arrOfValueNodes for node2 in node.horizontalNeighbors}
-        queue1 = {(node, node2) for node in self.arrOfValueNodes for node2 in node.verticalNeighbors}
-        queue.update(queue1)
+        temp_queue = {(node, node2) for node in self.arrOfValueNodes for node2 in node.verticalNeighbors}
+        queue.update(temp_queue)
         # for node in self.arrOfValueNodes:
         #     for neighbour in node.horizontalNeighbors:
         #         temp = (node, neighbour)
@@ -425,28 +425,28 @@ class Kakuro:
 
     @staticmethod
     def check_conflict(board, node1, domain1, node2, domain2):
-        sum = -1
+        sum_consistency = -1
         if domain2 == domain1:
             return False
         if node1.rowIndex == node2.rowIndex:
             row = board[node1.rowIndex]
-            sum = -1
+            sum_consistency = -1
             for node in row:
                 if node.type == 'C':
-                    sum = node.rowC
+                    sum_consistency = node.rowC
                     break
         elif node1.colIndex == node2.colIndex:
             list_of_col_nodes = []
             for row in board:
                 list_of_col_nodes.append(row[node1.colIndex])
-            sum = -1
+            sum_consistency = -1
             for node in list_of_col_nodes:
                 if node.type == 'C':
-                    sum = node.rowC
+                    sum_consistency = node.rowC
                     break
-        if sum == -1:
+        if sum_consistency == -1:
             return True
-        if sum < (domain1 + domain2):
+        if sum_consistency < (domain1 + domain2):
             return True
         else:
             return False
