@@ -1,8 +1,11 @@
 import Kakuro
 import Node
+import sys
 
 if __name__ == '__main__':
-    with open("input2.txt", 'r') as f:
+    input_file = sys.argv[1]
+
+    with open(input_file, 'r') as f:
         cols = int(f.readline()[0])
         rows = int(f.readline()[0])
         game = Kakuro.Kakuro(rows, cols)
@@ -64,6 +67,6 @@ if __name__ == '__main__':
         # print(game.arrOfValueNodes)
         # print(game.check_goal())
         print(game.arc_consistency())
+        # print(game.backtrack_search_use_queue())
         print(game.backtrack_search(0))
-        # print(game.backtrack_search(0))
         game.solve()
