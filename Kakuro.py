@@ -249,15 +249,18 @@ class Kakuro:
         if number_in_arr_of_value < len(self.arrOfValueNodes) and not Kakuro.check_goal(self.row, self.col, self.board):
             node = self.arrOfValueNodes[number_in_arr_of_value]
             if node.value is None:
-                for domain in node.copyOfDomain:
+                for domain in self.lcv(node):
                     node.value = domain
                     # node.copyOfDomain.remove(node.value)
                     print(f"{node}: {node.value}-----> {node.copyOfDomain}")
                     # print(Kakuro.print_board_value(self.row, self.col, self.board))
                     if Kakuro.valid_value(node):
-                        # if Kakuro.forward_checking(node):
-                        if self.backtrack_search(number_in_arr_of_value + 1):
-                            return True
+                        if Kakuro.forward_checking(node):
+                            if self.backtrack_search(number_in_arr_of_value + 1):
+                                return True
+                        self.rec_forward_checking(node)
+
+
 
                     # Kakuro.rec_forward_checking(node)
                     # node.copyOfDomain.append(node.value)
@@ -450,3 +453,17 @@ class Kakuro:
             return True
         else:
             return False
+
+    def lcv(self, node):
+        domain_conflict = []
+        for domain in node.copyOfDomain:
+            sum = 0
+            for neighbor in node.horizontalNeighbors:
+                if domain in neighbor.copyOfDomain:
+                    sum += 1
+            for neighbor in node.verticalNeighbors:
+                if domain in neighbor.copyOfDomain:
+                    sum += 1
+            domain_conflict.append((domain, sum))
+        domain_conflict.sort(key=lambda dc: dc[1])
+        return node.copyOfDomain
